@@ -10,7 +10,39 @@
 --      3.3 Get all publishers in descending order with number of books published so far
 --      3.4 Get all authors with comma seperated list of books they have written
 
-          --insert data to book table
+        
+        --Get all books which are published in last 30 years
+        SELECT *
+        FROM book
+        WHERE publishDate >= DATE('now', '-2 years');
+
+        SELECT SUM(book.price) AS total_price
+        FROM book
+        INNER JOIN author ON book.AuthorId = author.id
+        WHERE author.name = 'Parijat';
+
+        --get all publishers in descending order wiht number of books publish
+        SELECT publisher.name AS publisher, COUNT(book.id) AS number_of_books
+        FROM book
+        INNER JOIN publisher ON book.PublisherId = publisher.id
+        GROUP BY publisher.name
+        ORDER BY number_of_books DESC;
+
+        --get all authors with coma sepereated list of books the have written
+        SELECT a.name AS author, GROUP_CONCAT(b.title, ', ') AS books
+        FROM book b
+        INNER JOIN author a ON b.AuthorId = a.id
+        GROUP BY a.name;
+
+        
+
+        SELECT *from publisher
+        SELECT *from author 
+        select *from book
+
+
+
+    --insert data to book table
     insert INTO book
     VALUES
     (
@@ -336,40 +368,4 @@ VALUES
         101
     );
 
-        --Get all books which are published in last 30 years
-        SELECT *
-        FROM book
-        WHERE publishDate >= DATE('now', '-2 years');
-
-        --not solve
-        SELECT b.title, a.name AS author, b.publishDate
-        FROM book b
-        JOIN author a ON b.AuthorId = a.id
-        WHERE a.name = 'MONK';
-
-        SELECT SUM(book.price) AS total_price
-        FROM book
-        INNER JOIN author ON book.AuthorId = author.id
-        WHERE author.name = 'Parijat';
-
-        --get all publishers in descending order wiht number of books publish
-        SELECT publisher.name AS publisher, COUNT(book.id) AS number_of_books
-        FROM book
-        INNER JOIN publisher ON book.PublisherId = publisher.id
-        GROUP BY publisher.name
-        ORDER BY number_of_books DESC;
-
-
-
-        --get all authors with coma sepereated list of books the have written
-        SELECT a.name AS author, GROUP_CONCAT(b.title, ', ') AS books
-        FROM book b
-        INNER JOIN author a ON b.AuthorId = a.id
-        GROUP BY a.name;
-
-
-        
-
-        SELECT *from publisher
-        SELECT *from author 
-        select *from book
+       
